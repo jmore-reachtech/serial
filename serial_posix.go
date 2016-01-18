@@ -20,8 +20,10 @@ import (
 func openPort(name string, baud int, readTimeout time.Duration) (p *Port, err error) {
 	f, err := os.OpenFile(name, syscall.O_RDWR|syscall.O_NOCTTY|syscall.O_NONBLOCK, 0666)
 	if err != nil {
-		return
+		return nil, err
 	}
+
+	fmt.Println("posix openPort")
 
 	fd := C.int(f.Fd())
 	if C.isatty(fd) != 1 {
